@@ -1,0 +1,5 @@
+.env
+data/*
+test**
+order.txt
+__pycache__/*
