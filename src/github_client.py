@@ -15,22 +15,19 @@ class GitHubClient:
             },
         )
     
-    async def searchRepo(self, query:str, page:int=1, sort:str="stars", order:str="desc"):
+    async def searchRepo(self, query:str, page:int=1, perPage:int=100, sort:str="stars", order:str="desc"):
         params = {
             "q": query,
             "sort": sort,
             "order": order,
             "page": page,
-            "per_page": 100,
+            "per_page": perPage,
         }
-
         response = await self.client.get(
             f"{self.baseURL}/search/repositories",
             params=params,
         )
-
         response.raise_for_status()
-
         return response.json()["items"]
     
     async def get_user(self, username:str):

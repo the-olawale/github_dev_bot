@@ -26,7 +26,7 @@ ExcludedTerms = {
     "datasets",
 }
 
-def ifValidRepo(repo: dict)->bool:
+def isValidRepo(repo: dict)->bool:
     if repo.get("fork"):
         return False
     
@@ -41,7 +41,7 @@ def ifValidRepo(repo: dict)->bool:
     
     owner = repo.get("owner", {})
 
-    if repo. get("type") != "User":
+    if owner.get("type") != "User":
         return False
     
     textParts = [
@@ -69,7 +69,7 @@ def hasRecentActivity(events:list, day:int=30)->bool:
     }
     
     for event in events:
-        if event.get(type) not in meaningfulEvents:
+        if event.get("type") not in meaningfulEvents:
             continue
         
         createdAt = event.get("created_at")
@@ -84,7 +84,7 @@ def hasRecentActivity(events:list, day:int=30)->bool:
         if eventTime >= cutoff:
             return True
 
-    return True
+    return False
 
 def getSocials(user: dict)->dict:
     socials={}
