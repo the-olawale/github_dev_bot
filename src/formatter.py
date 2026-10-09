@@ -50,7 +50,7 @@ def formatDeveloper(developer:dict, number:int)->str:
 
     return "\n".join(lines)
 
-def formatDeveloperes(developers: list[dict])->str:
+def formatDevelopers(developers: list[dict])->str:
     blocks = [
         formatDeveloper(developer, index)
         for index, developer in enumerate(
