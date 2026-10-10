@@ -27,7 +27,7 @@ def formatDeveloper(developer:dict, number:int)->str:
     ]
 
     twitter = developer[
-        "socials"
+        "social"
     ].get("twitter")
 
     if twitter:

@@ -46,8 +46,8 @@ def isValidRepo(repo: dict)->bool:
     
     textParts = [
         repo.get("name", ""),
-        repo.get("description", ""),
-        " ".join(repo.get("topic", [])),
+        repo.get("description") or "",
+        " ".join(repo.get("topics") or []),
     ]
 
     haystack = " ".join(textParts).lower()
@@ -93,5 +93,5 @@ def getSocials(user: dict)->dict:
 
     if twitter:
         socials["twitter"] = f"https://x.com/{twitter}"
-
+    
     return socials

@@ -1,4 +1,5 @@
 import random
+import traceback
 
 from filters import getSocials, hasRecentActivity, isValidRepo
 from github_client import GitHubClient
@@ -58,7 +59,7 @@ class DeveloperDiscovery:
             username = repo["owner"]["login"]
 
             try:
-                user = await self.github.get_user(username)
+                user = await self.github.getUser(username)
 
                 if user.get("type") != "User":
                     continue
@@ -67,7 +68,7 @@ class DeveloperDiscovery:
                 if not socials:
                     continue
 
-                events = await self.github.get_user_events(username)
+                events = await self.github.getUserEvents(username)
                 if not hasRecentActivity(events):
                     continue
 
@@ -83,8 +84,8 @@ class DeveloperDiscovery:
                     }
                 )
 
-            except Exception as e:
-                print(f"Failed checking {username}: {e}")
+            except Exception:
+                traceback.print_exc()
                 continue
         
         return results

@@ -56,11 +56,12 @@ class Database:
                     telegramUserId,
                     githubUsername
                 )
+                VALUES(?, ?)
                 """,
                 [
                     (
                         telegramUserId,
-                        username.lower
+                        username.lower()
                     )
                     for username in usernames
                 ]
@@ -80,7 +81,7 @@ class Database:
 
             conn.commit() 
 
-    def countSeen(self, telegramUserId:int):
+    def countSeen(self, telegramUserId:int)->int:
         with self._connect() as conn:
             cursor = conn.execute(
                 """
@@ -91,5 +92,5 @@ class Database:
                 (telegramUserId,),
             )
 
-            return cursor.fetchone()[0]
+            return int(cursor.fetchone()[0])
 

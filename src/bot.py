@@ -1,5 +1,6 @@
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
+import traceback
 
 from config import telegramBotToken
 from database import Database
@@ -40,9 +41,8 @@ async def findCommand(update:Update, context: ContextTypes.DEFAULT_TYPE):
             parse_mode="HTML",
             disable_web_page_preview=True
         )
-    except Exception as e:
-        print(e)
-
+    except Exception:
+        traceback.print_exc()
         await statusMessage.edit_text("Something went wrong while searching.\n\nContact Dev")
     finally:
         await discovery.close()
