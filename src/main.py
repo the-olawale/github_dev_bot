@@ -9,13 +9,25 @@ from formatter import formatDevelopers
 
 db = Database()
 
+async def startCommand(update:Update, context:ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "👋 Welcome to GitHub Developer Discovery Bot.\n\n"
+        "I help you discover active individual developers behind public "
+        "GitHub tech projects with 1,000+ stars.\n\n"
+        "Available commands:\n"
+        "/find - Discover 10 fresh developers\n"
+        "/reset - Clear your previously shown developers\n"
+        "/profile <username> - Inspect a public GitHub profile "
+        "(coming later)\n"
+    )
+
 async def findCommand(update:Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.effective_user:
         return
     
     telegramUserId = update.effective_user.id
 
-    statusMessage = await update.message.reply_text("🔎 Finding fresh developers")
+    statusMessage = await update.message.reply_text("🔎 Finding fresh developers...")
     
     seen = db.getSeenUsernames(telegramUserId)
 
@@ -65,6 +77,10 @@ async def resetCommand(update:Update, context:ContextTypes.DEFAULT_TYPE):
 def main():
     application = (
         Application.builder().token(telegramBotToken).build()
+    )
+
+    application.add_handler(
+        CommandHandler("start", startCommand)
     )
 
     application.add_handler(
