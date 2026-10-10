@@ -66,7 +66,7 @@ github_dev_bot/
 ├── data/
 │
 ├── src/
-│   ├── bot.py
+│   ├── main.py
 │   ├── config.py
 │   ├── database.py
 │   ├── discovery.py
@@ -114,7 +114,7 @@ TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 Run the bot:
 
 ```bash
-python bot.py
+python main.py
 ```
 
 ## Configuration
