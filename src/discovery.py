@@ -89,6 +89,24 @@ class DeveloperDiscovery:
                 continue
         
         return results
+    
+    async def findUser(self, username)->dict:
+        result = {}
+
+        try:
+            user = await self.github.getUser(username)
+            result = {
+                "name": user.get("name") or "User didn't set a name",
+                "username": user.get("login"),
+                "repos": user["public_repos"],
+                "followers": user["followers"],
+                "githubUrl": user["html_url"],
+            }
+        except Exception:
+            traceback.print_exc()
+        
+        return result
+
 
     async def close(self):
         await self.github.close()

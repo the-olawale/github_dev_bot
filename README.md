@@ -25,7 +25,7 @@ Discover 10 fresh developers matching the bot's criteria.
 Clear your previously shown developers so they can appear again.
 
 `/profile <username>`  
-Inspect a public GitHub profile. Planned for a future version.
+Inspect a public GitHub profile.
 
 ## Developer Criteria
 
@@ -137,7 +137,6 @@ Running `/reset` removes that user's stored history.
 
 ## Planned Features
 
-- `/profile <username>`
 - Telegram social discovery
 - Discord social discovery
 - Better profile README parsing

@@ -5,7 +5,7 @@ import traceback
 from config import telegramBotToken
 from database import Database
 from discovery import DeveloperDiscovery
-from formatter import formatDevelopers
+from formatter import formatDevelopers, formatUser
 
 db = Database()
 
@@ -17,8 +17,7 @@ async def startCommand(update:Update, context:ContextTypes.DEFAULT_TYPE):
         "Available commands:\n"
         "/find - Discover 10 fresh developers\n"
         "/reset - Clear your previously shown developers\n"
-        "/profile <username> - Inspect a public GitHub profile "
-        "(coming later)\n"
+        "/profile <username> - Inspect a public GitHub profile\n"
     )
 
 async def findCommand(update:Update, context: ContextTypes.DEFAULT_TYPE):
@@ -59,6 +58,39 @@ async def findCommand(update:Update, context: ContextTypes.DEFAULT_TYPE):
     finally:
         await discovery.close()
 
+async def  profileCommand(update:Update, context:ContextTypes.DEFAULT_TYPE):
+    if not update.effective_user:
+        return
+
+    username = context.args
+
+    discovery = DeveloperDiscovery()
+
+    try:
+        user = await discovery.findUser(username[0])
+
+        if not user:
+            await update.message.reply_text(f"{username[0]} not found.")
+            return
+
+        message = formatUser(user)
+
+        await update.message.reply_text(
+            message,
+            parse_mode="HTML",
+            disable_web_page_preview=True
+        )
+    except Exception:
+        traceback.print_exc()
+        if not username:
+            await update.message.reply_text("Usage: /profile <github_username>")
+        else:
+            await update.message.reply_text("Something went wrong while searching.\n\nContact Dev")
+    finally:
+        await discovery.close()
+
+
+
 async def resetCommand(update:Update, context:ContextTypes.DEFAULT_TYPE):
     if not update.effective_user:
         return
@@ -85,6 +117,10 @@ def main():
 
     application.add_handler(
         CommandHandler("find", findCommand)
+    )
+
+    application.add_handler(
+        CommandHandler("profile", profileCommand)
     )
 
     application.add_handler(

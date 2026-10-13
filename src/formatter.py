@@ -60,3 +60,30 @@ def formatDevelopers(developers: list[dict])->str:
     ]
 
     return "\n\n".join(blocks)
+
+def formatUser(user:dict)->str:
+    name = escape(user["name"])
+
+    username = escape(user["username"])
+
+    repos = user["repos"]
+
+    followers = user["followers"]
+
+    githubUrl = escape(user["githubUrl"])
+
+    lines = [
+        f"👤 {name}",
+        f"@{username}",
+        "",
+        f"📦 {repos} public repos",
+        f"👥 {followers} followers"
+        "\n",
+        (
+            f'🔗 <a href="{githubUrl}">'
+            f"Go to Github</a>"
+        ),
+        "",
+    ]
+
+    return "\n".join(lines)
